@@ -19,6 +19,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "joi": "^17.4.2",
-    "mongoose": "^6.0.12"
+    "mongoose": "^6.0.12",
+    "netlify-lambda": "^2.0.15"
   }
 }

@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Joi = require("Joi");
+const serverless = require("serverless-http");
 
 const app = express();
 
@@ -8,9 +9,9 @@ const Post = require("./models/Post");
 
 app.use(express.json());
 
-app.get('/',(req,res) => {
+app.get("/", (req, res) => {
   res.send("hello world");
-})
+});
 
 const newPostSchema = Joi.object({
   title: Joi.string().max(60).required(),
@@ -53,10 +54,9 @@ app.post("/newPost", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("app is running");
-  mongoose.connect(
-    "mongodb+srv://AbuEl3abbas:BsZUSKpVH8hZBnHK@cluster0.nhp9l.mongodb.net/test?retryWrites=true&w=majority",
-    () => console.log("connected to db")
-  );
-});
+mongoose.connect(
+  "mongodb+srv://AbuEl3abbas:BsZUSKpVH8hZBnHK@cluster0.nhp9l.mongodb.net/test?retryWrites=true&w=majority",
+  () => console.log("connected to db")
+);
+
+module.export.handler = serverless(app)
