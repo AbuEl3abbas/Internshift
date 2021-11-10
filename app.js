@@ -8,6 +8,10 @@ const Post = require("./models/Post");
 
 app.use(express.json());
 
+app.get('/',(req,res) => {
+  res.send("hello world");
+})
+
 const newPostSchema = Joi.object({
   title: Joi.string().max(60).required(),
   location: Joi.string().max(25),
