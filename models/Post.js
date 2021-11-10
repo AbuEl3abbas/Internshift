@@ -3,12 +3,12 @@ const postSchema = new mongoose.Schema({
     title: {
         type: String, 
         required: true,
-        min: 4,
         max: 60
     },
     location: {
         type: String, 
         required: false,
+        max: 25
     },
     date: {
         type: Date,
@@ -30,6 +30,8 @@ const postSchema = new mongoose.Schema({
     phone: {
         type: String, 
         required: false,
+        min: 10,
+        max: 10,
         
     },
     email: {

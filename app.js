@@ -1,45 +1,58 @@
-const express = require('express');
-const mongoose = require('mongoose');
-
+const express = require("express");
+const mongoose = require("mongoose");
+const Joi = require("Joi");
 
 const app = express();
 
-const Post = require('./models/Post');
+const Post = require("./models/Post");
 
 app.use(express.json());
 
+const newPostSchema = Joi.object({
+  title: Joi.string().max(60).required(),
+  location: Joi.string().max(25),
+  description: Joi.string().min(50).max(10000).required(),
+  publisher: Joi.string().alphanum().min(2).max(50).required(),
+  phone: Joi.string().min(10).max(10),
+  email: Joi.string().email().required(),
+});
 
-
-app.get('/', async (req,res) => {
-  const post = await Post.find({title: 'javascript'});
+app.post("/findPost", async (req, res) => {
+  const post = await Post.find({
+    title: req.body.title,
+    location: req.body.location,
+  });
   res.send(post);
 });
 
+app.post("/newPost", async (req, res) => {
+  const validation = newPostSchema.validate(req.body);
 
+  if (validation.error) {
+    return res.status(400).send(validation.error.details[0].message);
+  } else {
+    const post = new Post({
+      title: req.body.title,
+      location: req.body.location,
+      description: req.body.description,
+      publisher: req.body.publisher,
+      phone: req.body.phone,
+      email: req.body.email,
+    });
 
-app.post('/search', async (req,res) => {
-
-  const post = new Post({
-    title: req.body.title,
-    location: req.body.location,
-    description: req.body.description,
-    publisher: req.body.publisher,
-    phone: req.body.phone,
-    email: req.body.email,
-  });
-
-  try {
-    const savedUser = await post.save();
-    res.send(savedUser);
-  }catch(e) {
-    res.status(400).send(error);
+    try {
+      const savedUser = await post.save();
+      res.send(savedUser);
+    } catch (e) {
+      res.status(400).send(e);
+    }
   }
+});
 
-})
-
-
-
-app.listen(3000,()=>{ 
+app.listen(3000, () => {
   console.log("app is running");
-  mongoose.connect('mongodb+srv://AbuEl3abbas:BsZUSKpVH8hZBnHK@cluster0.nhp9l.mongodb.net/test?retryWrites=true&w=majority',() => console.log('connected to db'));
-})
+  mongoose.connect(
+    "mongodb+srv://AbuEl3abbas:BsZUSKpVH8hZBnHK@cluster0.nhp9l.mongodb.net/test?retryWrites=true&w=majority",
+    () => console.log("connected to db")
+  );
+});
