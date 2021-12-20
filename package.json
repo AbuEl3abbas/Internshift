@@ -17,9 +17,11 @@
   },
   "homepage": "https://github.com/AbuEl3abbas/Internshift#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "joi": "^17.4.2",
     "mongoose": "^6.0.12",
-    "netlify-lambda": "^2.0.15"
+    "netlify-lambda": "^2.0.15",
+    "node-fetch": "^3.1.0"
   }
 }

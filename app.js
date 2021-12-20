@@ -1,17 +1,21 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Joi = require("Joi");
-const serverless = require("serverless-http");
 
 const app = express();
 
 const Post = require("./models/Post");
+const cors=require("cors");
+const corsOptions ={
+   origin:'*', 
+   credentials:true,            //access-control-allow-credentials:true
+   optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions))
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
 
 const newPostSchema = Joi.object({
   title: Joi.string().max(60).required(),
@@ -22,13 +26,19 @@ const newPostSchema = Joi.object({
   email: Joi.string().email().required(),
 });
 
+
+
+
 app.post("/findPost", async (req, res) => {
   const post = await Post.find({
+    
     title: req.body.title,
     location: req.body.location,
-  });
+  });  
   res.send(post);
 });
+
+
 
 app.post("/newPost", async (req, res) => {
   const validation = newPostSchema.validate(req.body);
@@ -54,9 +64,14 @@ app.post("/newPost", async (req, res) => {
   }
 });
 
-mongoose.connect(
-  "mongodb+srv://AbuEl3abbas:BsZUSKpVH8hZBnHK@cluster0.nhp9l.mongodb.net/test?retryWrites=true&w=majority",
-  () => console.log("connected to db")
-);
 
-module.export.handler = serverless(app)
+
+
+
+app.listen(3000, () => {
+  console.log("app is running");
+  mongoose.connect(
+    "mongodb+srv://AbuEl3abbas:BsZUSKpVH8hZBnHK@cluster0.nhp9l.mongodb.net/test?retryWrites=true&w=majority",
+    () => console.log("connected to db")
+  );
+});
