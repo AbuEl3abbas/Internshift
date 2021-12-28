@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Joi = require("Joi");
+const cors = require("cors");
 
 //Import Routes
 
@@ -9,7 +10,7 @@ const authRoute = require("./routes/auth")
 const app = express();
 
 const Post = require("./models/Post");
-const cors=require("cors");
+
 const corsOptions ={
    origin:'*', 
    credentials:true,            //access-control-allow-credentials:true
@@ -23,7 +24,7 @@ app.use(express.json());
 
 //Routes Middlewares
 
-app.use('/register',authRoute);
+app.use('/auth',authRoute);
 
 
 app.get('/',(req,res) => {
