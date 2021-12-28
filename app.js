@@ -2,6 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Joi = require("Joi");
 
+//Import Routes
+
+const authRoute = require("./routes/auth")
+
 const app = express();
 
 const Post = require("./models/Post");
@@ -12,9 +16,19 @@ const corsOptions ={
    optionSuccessStatus:200,
 }
 
-app.use(cors(corsOptions))
+//Middlewares
 
+app.use(cors(corsOptions))
 app.use(express.json());
+
+//Routes Middlewares
+
+app.use('/register',authRoute);
+
+
+app.get('/',(req,res) => {
+  res.send("test");
+});
 
 
 const newPostSchema = Joi.object({
