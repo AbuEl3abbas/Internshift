@@ -6,9 +6,7 @@ const cors = require("cors");
 //Import Routes
 
 const authRoute = require("./routes/auth")
-
 const app = express();
-
 const Post = require("./models/Post");
 
 const corsOptions ={
@@ -27,9 +25,7 @@ app.use(express.json());
 app.use('/auth',authRoute);
 
 
-app.get('/',(req,res) => {
-  res.send("test");
-});
+
 
 
 const newPostSchema = Joi.object({
