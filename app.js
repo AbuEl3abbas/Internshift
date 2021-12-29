@@ -36,7 +36,9 @@ app.use('/auth',authRoute);
 app.use('/post',postRoute);
 
 
-
+app.get("/",(req,res) => {
+  res.send("test");
+})
 
 
 const newPostSchema = Joi.object({
