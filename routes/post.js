@@ -1,12 +1,18 @@
 const Post = require("../models/Post");
 const router = require('express').Router();
 const {newPostValidation} = require('../validation')
-const corsFunction = require('../configs/cors');
+const cors = require("cors");
 
+
+const corsOptions = {
+    origin:'*', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+ }
 
 // Routes Middlewares
 
-router.use(corsFunction);
+router.use(cors(corsOptions));
 
 
 router.post("/find", async (req, res) => {

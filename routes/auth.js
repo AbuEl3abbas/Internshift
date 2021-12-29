@@ -3,11 +3,18 @@ const Student = require('../models/Student');
 const Company = require('../models/Company');
 const {studentRegisterValidation} = require('../validation');
 const {companyRegisterValidation} = require('../validation');
-const corsFunction = require('../configs/cors');
+const cors = require("cors");
+
+
+const corsOptions = {
+    origin:'*', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+ }
 
 // Routes Middlewares
 
-router.use(corsFunction);
+router.use(cors(corsOptions));
 
 
 
