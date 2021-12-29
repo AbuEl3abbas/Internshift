@@ -3,7 +3,7 @@ const Student = require('../models/Student');
 const Company = require('../models/Company');
 const {studentRegisterValidation} = require('../validation');
 const {companyRegisterValidation} = require('../validation');
-const cors = require("cors");
+/*const cors = require("cors");
 
 
 const corsOptions = {
@@ -15,7 +15,7 @@ const corsOptions = {
 // Routes Middlewares
 
 router.use(cors(corsOptions));
-
+*/
 
 
 router.post('/register/student', async (req, res) => {

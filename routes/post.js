@@ -1,7 +1,7 @@
 const Post = require("../models/Post");
 const router = require('express').Router();
 const {newPostValidation} = require('../validation')
-const cors = require("cors");
+/*const cors = require("cors");
 
 
 const corsOptions = {
@@ -13,7 +13,7 @@ const corsOptions = {
 // Routes Middlewares
 
 router.use(cors(corsOptions));
-
+*/
 
 router.post("/find", async (req, res) => {
     const post = await Post.find({
