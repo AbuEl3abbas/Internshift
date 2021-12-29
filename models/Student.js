@@ -15,10 +15,11 @@ const studentSchema = new mongoose.Schema({
     password: {
         type: String,
     },
+    
     date: {
-        type:String,
-        default: Date.now
-    }
+        type: Date,
+        default: Date.now()
+    },
 }
 );
 

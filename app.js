@@ -1,32 +1,32 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Joi = require("Joi");
-const cors = require("cors");
+
+const app = express();
+
 
 //Import Routes
 
 const authRoute = require("./routes/auth")
-const app = express();
+const postRoute = require("./routes/post")
+
 const Post = require("./models/Post");
 
-const corsOptions ={
-   origin:'*', 
-   credentials:true,            //access-control-allow-credentials:true
-   optionSuccessStatus:200,
-}
 
 //Middlewares
 
-app.use(cors(corsOptions))
 app.use(express.json());
+
+
 
 //Routes Middlewares
 
 app.use('/auth',authRoute);
+app.use('/post',postRoute);
 
 
 
-
+/*
 
 const newPostSchema = Joi.object({
   title: Joi.string().max(60).required(),
@@ -77,7 +77,7 @@ app.post("/newPost", async (req, res) => {
 
 
 
-
+*/
 
 app.listen(3000, () => {
   console.log("app is running");
