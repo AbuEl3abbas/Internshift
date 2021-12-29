@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/AbuEl3abbas/Internshift#readme",
   "dependencies": {
+    "axios": "^0.24.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "joi": "^17.4.2",

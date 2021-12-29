@@ -1,7 +1,7 @@
 const Post = require("../models/Post");
 const router = require('express').Router();
 const {newPostValidation} = require('../validation')
-const corsFunction = require('./configs/cors');
+const corsFunction = require('../configs/cors');
 
 
 // Routes Middlewares
