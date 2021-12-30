@@ -10,19 +10,6 @@ const {
   loginValidation,
 } = require("../validation");
 
-/*const cors = require("cors");
-
-
-const corsOptions = {
-    origin:'*', 
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200,
- }
-
-// Routes Middlewares
-
-router.use(cors(corsOptions));
-*/
 
 //Student account registration
 
