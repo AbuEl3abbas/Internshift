@@ -8,7 +8,7 @@ const {
   studentRegisterValidation,
   companyRegisterValidation,
   loginValidation,
-} = require("../validation");
+} = require("../middlewares/validation");
 
 
 //Student account registration
@@ -161,4 +161,39 @@ router.post("/login/company", async (req, res) => {
   res.header("auth-token", token).send(token);
 });
 
+/*
+router.post("/login/admin", async (req, res) => {
+  //Validation
+
+  const validation = loginValidation(req.body);
+  if (validation.error) {
+    return res.status(400).send(validation.error.details[0].message);
+  }
+
+  //Checking if the user is already registered
+
+  const admin = await Admin.findOne({ email: req.body.email });
+  if (!admin) {
+    return res.status(400).send("Email or Password is wrong");
+  }
+
+  //Checking if password is correct
+
+  const validPassword = await bcrypt.compare(
+    req.body.password,
+    admin.password
+  );
+  if (!validPassword) {
+    return res.status(400).send("Email or Password is wrong");
+  }
+
+  //Create and assign a token
+
+  const token = jwt.sign(
+    { _id: admin._id },
+    process.env.ADMIN_TOKEN_SECRET
+  );
+  res.header("auth-token", token).send(token);
+});
+*/
 module.exports = router;

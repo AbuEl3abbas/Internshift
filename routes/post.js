@@ -1,7 +1,7 @@
 const Post = require("../models/Post");
 const router = require('express').Router();
 const verify = require('../middlewares/verifyToken');
-const {newPostValidation} = require('../validation');
+const {newPostValidation} = require('../middlewares/validation');
 
 
 /*const cors = require("cors");
