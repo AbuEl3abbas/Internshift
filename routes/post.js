@@ -1,6 +1,9 @@
 const Post = require("../models/Post");
 const router = require('express').Router();
-const {newPostValidation} = require('../validation')
+const verify = require('../middlewares/verifyToken');
+const {newPostValidation} = require('../validation');
+
+
 /*const cors = require("cors");
 
 
@@ -26,7 +29,7 @@ router.post("/find", async (req, res) => {
   
   
   
-  router.post("/new", async (req, res) => {
+  router.post("/new", verify, async (req, res) => {
     const validation = newPostValidation(req.body);
   
     if (validation.error) {
@@ -42,8 +45,8 @@ router.post("/find", async (req, res) => {
       });
   
       try {
-        const savedUser = await post.save();
-        res.send(savedUser);
+        await post.save();
+        res.send(req.user);
       } catch (e) {
         res.status(400).send(e);
       }

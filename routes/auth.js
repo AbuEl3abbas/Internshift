@@ -2,6 +2,8 @@ const router = require("express").Router();
 const Student = require("../models/Student");
 const Company = require("../models/Company");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const {
   studentRegisterValidation,
   companyRegisterValidation,
@@ -103,14 +105,12 @@ router.post("/register/company", async (req, res) => {
 //Student login
 
 router.post("/login/student", async (req, res) => {
-
   //Validation
 
   const validation = loginValidation(req.body);
   if (validation.error) {
     return res.status(400).send(validation.error.details[0].message);
   }
-
 
   //Checking if the user is already registered
 
@@ -121,26 +121,32 @@ router.post("/login/student", async (req, res) => {
 
   //Checking if password is correct
 
-  const validPassword = await bcrypt.compare(req.body.password, student.password);
-  if(!validPassword) {
+  const validPassword = await bcrypt.compare(
+    req.body.password,
+    student.password
+  );
+  if (!validPassword) {
     return res.status(400).send("Email or password is wrong");
   }
 
-  res.send("logged in successfully");
+  //Create and assign a token
 
+  const token = jwt.sign(
+    { _id: student._id },
+    process.env.STUDENT_TOKEN_SECRET
+  );
+  res.header("auth-token", token).send(token);
 });
 
 //company login
 
 router.post("/login/company", async (req, res) => {
-
   //Validation
 
   const validation = loginValidation(req.body);
   if (validation.error) {
     return res.status(400).send(validation.error.details[0].message);
   }
-
 
   //Checking if the user is already registered
 
@@ -151,13 +157,21 @@ router.post("/login/company", async (req, res) => {
 
   //Checking if password is correct
 
-  const validPassword = await bcrypt.compare(req.body.password, company.password);
-  if(!validPassword) {
-    return res.status(400).send("Email or password is wrong");
+  const validPassword = await bcrypt.compare(
+    req.body.password,
+    company.password
+  );
+  if (!validPassword) {
+    return res.status(400).send("Email or Password is wrong");
   }
 
-  res.send("logged in successfully");
+  //Create and assign a token
 
+  const token = jwt.sign(
+    { _id: company._id },
+    process.env.COMPANY_TOKEN_SECRET
+  );
+  res.header("auth-token", token).send(token);
 });
 
 module.exports = router;
