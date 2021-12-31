@@ -1,7 +1,9 @@
 const Post = require("../models/Post");
+const Company = require("../models/Company");
 const router = require('express').Router();
 const verify = require('../middlewares/verifyToken');
-const {newPostValidation} = require('../middlewares/validation');
+const jwtDecode = require('jwt-decode');
+const {newPostValidation, newTestPostValidation} = require('../middlewares/validation');
 
 
 /*const cors = require("cors");
@@ -29,7 +31,7 @@ router.post("/find", async (req, res) => {
   
   
   
-  router.post("/new", verify, async (req, res) => {
+  router.post("/new", verify.companyVerification, async (req, res) => {
     const validation = newPostValidation(req.body);
   
     if (validation.error) {
@@ -47,6 +49,35 @@ router.post("/find", async (req, res) => {
       try {
         await post.save();
         res.send(req.user);
+      } catch (e) {
+        res.status(400).send(e);
+      }
+    }
+  });
+
+  
+  router.post("/newTest", verify.companyVerification, async (req, res) => {
+    const validation = newTestPostValidation(req.body);
+  
+    if (validation.error) {
+      return res.status(400).send(validation.error.details[0].message);
+    } else {
+
+      const company = await Company.findById(req.user._id);
+      if (!company) return res.sendStatus(401);
+
+      const post = new Post({
+        title: req.body.title,
+        description: req.body.description,
+        location: company.location,
+        publisher: company.name,
+        phone: company.phone,
+        email: company.email
+        });
+  
+      try {
+        await post.save();
+        res.send(post);
       } catch (e) {
         res.status(400).send(e);
       }

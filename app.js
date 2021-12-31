@@ -52,7 +52,7 @@ const newPostSchema = Joi.object({
 
 
 
-
+/*
 app.post("/findPost", async (req, res) => {
   const post = await Post.find({
     
@@ -82,15 +82,15 @@ app.post("/newPost", async (req, res) => {
     try {
       const savedUser = await post.save();
       res.send(savedUser);
-    } catch (e) {
-      res.status(400).send(e);
+    } catch (err) {
+      res.status(400).send(err);
     }
   }
 });
 
 
 
-
+*/
 
 app.listen(3000, () => {
   console.log("app is running");

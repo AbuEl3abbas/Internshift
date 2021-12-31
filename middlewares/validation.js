@@ -33,10 +33,20 @@ function newPostValidation(data) {
   const schema = Joi.object({
     title: Joi.string().max(60).required(),
     location: Joi.string().max(25),
-    description: Joi.string().min(50).max(10000).required(),
+    description: Joi.string().min(20).max(10000).required(),
     publisher: Joi.string().alphanum().min(2).max(50).required(),
     phone: Joi.string().min(10).max(10),
     email: Joi.string().email().required(),
+  });
+
+  return schema.validate(data);
+}
+
+function newTestPostValidation(data) {
+  const schema = Joi.object({
+    title: Joi.string().min(2).max(60).required(),
+    description: Joi.string().min(20).max(10000).required(),
+    
   });
 
   return schema.validate(data);
@@ -46,3 +56,4 @@ module.exports.studentRegisterValidation = studentRegisterValidation;
 module.exports.newPostValidation = newPostValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.companyRegisterValidation = companyRegisterValidation;
+module.exports.newTestPostValidation = newTestPostValidation;
