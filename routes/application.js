@@ -70,19 +70,17 @@ router.get("/postsByCompany", verify.companyVerification, async (req, res) => {
   const companyApplications = await Application.find({
     companyId: req.user._id,
   });
+
   if (!companyApplications) return res.sendStatus(400);
 
+
+  var postsByCompany = [];
+
   for (let i = 0; i < companyApplications.length; i++) {
-    console.log({
-      post: await Post.find({ _id: companyApplications[i].postId }),
-      student: await Student.find(
-        { _id: companyApplications[i].studentId },
-        "-password"
-      ),
-    });
+    postsByCompany.push(await Post.findOne({_id: companyApplications[i].postId}));
   }
 
-  res.sendStatus(200);
+  res.send(postsByCompany);
   /*
   students = [];
 
