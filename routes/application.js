@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const Student = require("../models/Student");
+const Company = require("../models/Company");
+const Post = require("../models/Post")
 const Application = require("../models/Application");
 const verify = require("../middlewares/verifyToken");
 const { applyValidation } = require("../middlewares/validation");
@@ -43,7 +45,7 @@ router.post("/apply", verify.studentVerification, async (req, res) => {
 
     try {
       await application.save();
-      res.send(200).send(application);
+      res.status(200).send(application);
     } catch (err) {
       res.status(400).send(err);
     }
@@ -62,6 +64,7 @@ router.get("/applied", verify.companyVerification, async (req, res) => {
     const studentId = companyApplications[i].studentId;
     var student = await Student.findOne({studentId: studentId});
     students.push(student);
+
 
   }
 
