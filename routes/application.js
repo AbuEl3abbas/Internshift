@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Student = require("../models/Student");
 const Company = require("../models/Company");
-const Post = require("../models/Post")
+const Post = require("../models/Post");
 const Application = require("../models/Application");
 const verify = require("../middlewares/verifyToken");
 const { applyValidation } = require("../middlewares/validation");
@@ -35,6 +35,20 @@ router.post("/apply", verify.studentVerification, async (req, res) => {
       return res.status(400).send("post not found");
     }
 
+
+    //checking if the student already applied to the post
+
+    var isApplied = false;
+    if (
+      (await Application.findOne({ studentId: student.id })) &&
+      (await Application.findOne({ postId: post.id }))
+    ) {
+      isApplied = true;
+    } else {
+      isApplied = false;
+    }
+    if (isApplied) return res.sendStatus(403);
+
     //saving application in the database
 
     const application = new Application({
@@ -52,24 +66,35 @@ router.post("/apply", verify.studentVerification, async (req, res) => {
   }
 });
 
-router.get("/applied", verify.companyVerification, async (req, res) => {
+router.get("/postsByCompany", verify.companyVerification, async (req, res) => {
   const companyApplications = await Application.find({
     companyId: req.user._id,
   });
   if (!companyApplications) return res.sendStatus(400);
 
+  for (let i = 0; i < companyApplications.length; i++) {
+    console.log({
+      post: await Post.find({ _id: companyApplications[i].postId }),
+      student: await Student.find(
+        { _id: companyApplications[i].studentId },
+        "-password"
+      ),
+    });
+  }
+
+  res.sendStatus(200);
+  /*
   students = [];
 
   for (let i = 0; i < companyApplications.length; i++) {
-    const studentId = companyApplications[i].studentId;
-    var student = await Student.findOne({studentId: studentId});
-    students.push(student);
-
-
+    for (let j = 0; j < companyApplications.length; j++) {
+      const studentId = companyApplications[i].postId;
+      var student = await Post.findOne({ studentId: studentId });
+      students.push(student);
+    }
   }
 
-  res.send(students);
-
+  res.send(students);*/
 });
 
 module.exports = router;

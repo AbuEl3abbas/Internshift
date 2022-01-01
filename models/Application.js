@@ -10,6 +10,10 @@ const applicationSchema = new mongoose.Schema({
   postId: {
     type: String,
   },
+  date: {
+    type: Date,
+    default: Date.now()
+  }
 });
 
 module.exports = mongoose.model("Application", applicationSchema);
