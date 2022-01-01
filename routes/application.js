@@ -81,18 +81,26 @@ router.get("/postsByCompany", verify.companyVerification, async (req, res) => {
   }
 
   res.send(postsByCompany);
-  /*
-  students = [];
-
-  for (let i = 0; i < companyApplications.length; i++) {
-    for (let j = 0; j < companyApplications.length; j++) {
-      const studentId = companyApplications[i].postId;
-      var student = await Post.findOne({ studentId: studentId });
-      students.push(student);
-    }
-  }
-
-  res.send(students);*/
+  
 });
+
+router.post("/studentsApplied", verify.companyVerification, async (req, res) => {
+
+    //validation required
+
+
+    const postId = req.body.postId;
+
+    const studentIds = await Application.find({postId: postId},"studentId");
+
+    res.send(studentIds);
+  
+    /*for (let i = 0; i < companyApplications.length; i++) {
+      postsByCompany.push(await Post.findOne({_id: companyApplications[i].postId}));
+    }
+*/  
+    
+  });
+  
 
 module.exports = router;
