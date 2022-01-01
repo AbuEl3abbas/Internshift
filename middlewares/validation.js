@@ -1,4 +1,5 @@
 const Joi = require("Joi");
+Joi.objectId = require('joi-objectid')(Joi)
 
 function studentRegisterValidation(data) {
   const schema = Joi.object({
@@ -41,8 +42,19 @@ function newPostValidation(data) {
   return schema.validate(data);
 }
 
+function applyValidation(data) {
+  const schema = Joi.object({
+    email: Joi.string().email().min(6).max(256).required(),
+    postId : Joi.objectId().required()
+    
+  });
+
+  return schema.validate(data);
+}
+
 module.exports.studentRegisterValidation = studentRegisterValidation;
 module.exports.newPostValidation = newPostValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.companyRegisterValidation = companyRegisterValidation;
+module.exports.applyValidation = applyValidation
 

@@ -18,10 +18,10 @@ app.use(cors(corsOptions));
 
 //Import Routes
 
-const authRoute = require("./routes/auth")
-const postRoute = require("./routes/post")
+const authRoute = require("./routes/auth");
+const postRoute = require("./routes/post");
+const applicationRoute = require("./routes/application");
 
-const Post = require("./models/Post");
 
 
 //Middlewares
@@ -34,6 +34,7 @@ app.use(cors(corsOptions));
 
 app.use('/auth',authRoute);
 app.use('/post',postRoute);
+app.use('/application', applicationRoute);
 
 
 app.get("/",(req,res) => {
