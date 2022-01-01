@@ -1,5 +1,7 @@
 const Post = require("../models/Post");
 const Company = require("../models/Company");
+const Student = require("../models/Student");
+const Application = require("../models/Application");
 const router = require('express').Router();
 const verify = require('../middlewares/verifyToken');
 const {newPostValidation} = require('../middlewares/validation');
@@ -57,5 +59,46 @@ router.post("/find", async (req, res) => {
     }
   });
   
+
+  router.post('/apply',verify.studentVerification, async (req,res) => {
+    
+    //validation required
+
+    const company = await Company.findOne({ email: req.body.email });
+    if (!company) {
+      return res.status(400).send("company not found");
+    }
+
+
+    const student = await Student.findById(req.user._id);
+    if(!student) {
+      return res.status(400).send("student not found");
+    }
+
+    const post = await Post.findById(req.body.postId);
+    if(!post) {
+      return res.status(400).send("post not found")
+    }
+
+  
+    const application = new Application({
+      studentId: student._id,
+      companyId: company._id,
+      postId: post._id
+    });
+
+    try{
+      await application.save();
+      res.send(200).send(application);
+    }catch(err) {
+      res.status(400).send(err);
+    }
+
+
+
+
+
+  });
+
   
   module.exports = router;
