@@ -1,5 +1,6 @@
 const Post = require("../models/Post");
 const Company = require("../models/Company");
+const Internship = require("../models/Internship")
 const router = require("express").Router();
 const verify = require("../middlewares/verifyToken");
 const {
@@ -51,6 +52,12 @@ router.get('/postsByCompany',verify.companyVerification , async (req,res) => {
   if(companiesPosts.length === 0) return res.status(400).send("no posts posted yet")
   res.status(200).send(companiesPosts);
 
+});
+
+router.post('/internship', verify.studentVerification, async (req,res) => {
+  const internships = await Internship.find({studentId: req.user._id});
+  if(internships.length === 0) return res.status(400).send("no accepted internships yet");
+  res.status(200).send(internships);
 })
 
 module.exports = router;
