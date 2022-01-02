@@ -11,7 +11,7 @@ const {
 } = require("../middlewares/validation");
 
 
-//Student account registration
+ //Student account registration
 
 router.post("/register/student", async (req, res) => {
   //Validation

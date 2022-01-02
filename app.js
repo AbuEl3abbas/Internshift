@@ -1,6 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const Joi = require("Joi");
 const app = express();
 const cors = require("cors");
 
@@ -18,9 +17,9 @@ app.use(cors(corsOptions));
 
 //Import Routes
 
-const authRoute = require("./routes/auth");
-const postRoute = require("./routes/post");
-const applicationRoute = require("./routes/application");
+const authRoute = require("./controllers/auth");
+const postRoute = require("./controllers/post");
+const applicationRoute = require("./controllers/application");
 
 
 

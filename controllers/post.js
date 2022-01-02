@@ -25,6 +25,7 @@ router.post("/new", verify.companyVerification, async (req, res) => {
     const company = await Company.findById(req.user._id);
     if (!company) return res.sendStatus(401);
 
+
     const post = new Post({
       title: req.body.title,
       description: req.body.description,
@@ -32,6 +33,7 @@ router.post("/new", verify.companyVerification, async (req, res) => {
       publisher: company.name,
       phone: company.phone,
       email: company.email,
+      companyId: company._id
     });
 
     try {
@@ -43,6 +45,12 @@ router.post("/new", verify.companyVerification, async (req, res) => {
   }
 });
 
+router.get('/postsByCompany',verify.companyVerification , async (req,res) => {
 
+  const companiesPosts = await Post.find({companyId: req.user._id});
+  if(companiesPosts.length === 0) return res.status(400).send("no posts posted yet")
+  res.status(200).send(companiesPosts);
+
+})
 
 module.exports = router;

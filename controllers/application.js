@@ -65,27 +65,29 @@ router.post("/apply", verify.studentVerification, async (req, res) => {
   }
 });
 
-router.get("/postsByCompany", verify.companyVerification, async (req, res) => {
+router.get("/appliedPosts", verify.companyVerification, async (req, res) => {
   const companyApplications = await Application.find({
     companyId: req.user._id,
   });
 
   if (!companyApplications) return res.sendStatus(400);
 
-  var postsByCompany = [];
+  var appliedPosts = [];
 
   for (let i = 0; i < companyApplications.length; i++) {
-    postsByCompany.push(
+    appliedPosts.push(
       await Post.findOne({ _id: companyApplications[i].postId })
     );
   }
 
-  res.send(postsByCompany);
+  res.send(appliedPosts);
 });
+
+
 
 router.post("/studentsApplied", verify.companyVerification, async (req, res) => {
 
-    //validation required
+    //validation
 
     const validation = studentAppliedValidation(req.body);
 
