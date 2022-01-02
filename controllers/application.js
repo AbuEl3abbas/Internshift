@@ -3,8 +3,13 @@ const Student = require("../models/Student");
 const Company = require("../models/Company");
 const Post = require("../models/Post");
 const Application = require("../models/Application");
+const Pending = require("../models/Pending")
 const verify = require("../middlewares/verifyToken");
-const { applyValidation, studentAppliedValidation } = require("../middlewares/validation");
+const {
+  applyValidation,
+  studentAppliedValidation,
+  acceptApplicationValidation
+} = require("../middlewares/validation");
 
 router.post("/apply", verify.studentVerification, async (req, res) => {
   //validation required
@@ -83,10 +88,10 @@ router.get("/appliedPosts", verify.companyVerification, async (req, res) => {
   res.send(appliedPosts);
 });
 
-
-
-router.post("/studentsApplied", verify.companyVerification, async (req, res) => {
-
+router.post(
+  "/studentsApplied",
+  verify.companyVerification,
+  async (req, res) => {
     //validation
 
     const validation = studentAppliedValidation(req.body);
@@ -104,12 +109,45 @@ router.post("/studentsApplied", verify.companyVerification, async (req, res) => 
       var students = [];
 
       for (let i = 0; i < studentIds.length; i++) {
-        students.push(await Student.findOne({ _id: studentIds[i].studentId },"-password"));
+        students.push(
+          await Student.findOne({ _id: studentIds[i].studentId }, "-password")
+        );
       }
 
       res.send(students);
     }
   }
 );
+
+router.post("/accept", verify.companyVerification , async (req, res) => {
+  //validation 
+  
+  acceptApplicationValidation(req.body)
+
+  
+
+  const acceptedApplication = await Application.findOneAndDelete({
+    studentId: req.body.studentId,
+    companyId: req.body.companyId,
+  });
+
+  if(!acceptedApplication) return res.sendStatus(400);
+
+  const pending = new Pending({
+    studentId: acceptedApplication.studentId,
+    companyId: acceptedApplication.companyId,
+    postId: acceptedApplication.postId
+  });
+
+  try{
+    const savedPending = await pending.save();
+    res.send(savedPending);
+  }catch(err){
+    res.status(400).send(err);
+  }
+
+
+
+});
 
 module.exports = router;

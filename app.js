@@ -20,6 +20,7 @@ app.use(cors(corsOptions));
 const authRoute = require("./controllers/auth");
 const postRoute = require("./controllers/post");
 const applicationRoute = require("./controllers/application");
+const pendingRoute = require("./controllers/pending");
 
 
 
@@ -34,6 +35,7 @@ app.use(cors(corsOptions));
 app.use('/auth',authRoute);
 app.use('/post',postRoute);
 app.use('/application', applicationRoute);
+app.use('/pending', pendingRoute);
 
 
 app.get("/",(req,res) => {

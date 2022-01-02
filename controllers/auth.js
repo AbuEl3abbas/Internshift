@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Student = require("../models/Student");
 const Company = require("../models/Company");
+const Admin = require("../models/Admin");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -160,8 +161,35 @@ router.post("/login/company", async (req, res) => {
   );
   res.header("auth-token", token).send(token);
 });
-
 /*
+router.post("/register/admin", async (req, res) => {
+  //Validation
+
+  
+
+
+  //Hashing the password
+
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+  //creating new admin account
+
+  
+
+  const admin = new Admin({
+    email: req.body.email,
+    password: hashedPassword,
+  });
+
+  try {
+    const savedAdmin = await admin.save();
+    res.json({ id: savedAdmin._id });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+*/
 router.post("/login/admin", async (req, res) => {
   //Validation
 
@@ -195,5 +223,5 @@ router.post("/login/admin", async (req, res) => {
   );
   res.header("auth-token", token).send(token);
 });
-*/
+
 module.exports = router;

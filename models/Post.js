@@ -3,15 +3,12 @@ const mongoose = require('mongoose');
 const postSchema = new mongoose.Schema({
     title: {
         type: String, 
-        required: true,
     },
     description: {
         type: String, 
-        required: true,
     },
     location: {
         type: String, 
-        required: false,
     },
     date: {
         type: Date,
@@ -20,17 +17,14 @@ const postSchema = new mongoose.Schema({
     
     publisher: {
         type: String, 
-        required: true,
 
     },
     phone: {
         type: String, 
-        required: false,
         
     },
     email: {
         type: String, 
-        required: true,
 
     },
     companyId: {

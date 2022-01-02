@@ -55,9 +55,19 @@ function studentAppliedValidation(data) {
   return schema.validate(data);
 }
 
+
+function acceptApplicationValidation(data) {
+  const schema = Joi.object({
+    postId: Joi.objectId().required(),
+    studentId: Joi.objectId().required()
+  })
+  return schema.validate(data);
+}
+
 module.exports.studentRegisterValidation = studentRegisterValidation;
 module.exports.newPostValidation = newPostValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.companyRegisterValidation = companyRegisterValidation;
 module.exports.applyValidation = applyValidation;
 module.exports.studentAppliedValidation = studentAppliedValidation;
+module.exports.acceptApplicationValidation = acceptApplicationValidation;
