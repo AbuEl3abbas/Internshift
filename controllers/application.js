@@ -3,12 +3,12 @@ const Student = require("../models/Student");
 const Company = require("../models/Company");
 const Post = require("../models/Post");
 const Application = require("../models/Application");
-const Pending = require("../models/Pending")
+const Pending = require("../models/Pending");
 const verify = require("../middlewares/verifyToken");
 const {
   applyValidation,
   studentAppliedValidation,
-  acceptApplicationValidation
+  acceptApplicationValidation,
 } = require("../middlewares/validation");
 
 router.post("/apply", verify.studentVerification, async (req, res) => {
@@ -119,35 +119,35 @@ router.post(
   }
 );
 
-router.post("/accept", verify.companyVerification , async (req, res) => {
-  //validation 
-  
-  acceptApplicationValidation(req.body)
+router.post("/accept", verify.companyVerification, async (req, res) => {
+  //validation
 
-  
+  const validation = acceptApplicationValidation(req.body);
+  if (validation.error) {
+    return res.status(400).send(validation.error.details[0].message);
+  } else {
+    
+    const acceptedApplication = await Application.findOneAndDelete({
+      studentId: req.body.studentId,
+      postId: req.body.postId
+    });
 
-  const acceptedApplication = await Application.findOneAndDelete({
-    studentId: req.body.studentId,
-    companyId: req.body.companyId,
-  });
 
-  if(!acceptedApplication) return res.sendStatus(400);
+    if (!acceptedApplication) return res.sendStatus(400);
 
-  const pending = new Pending({
-    studentId: acceptedApplication.studentId,
-    companyId: req.user._id,
-    postId: acceptedApplication.postId
-  });
+    const pending = new Pending({
+      studentId: acceptedApplication.studentId,
+      companyId: req.user._id,
+      postId: acceptedApplication.postId,
+    });
 
-  try{
-    const savedPending = await pending.save();
-    res.send(savedPending);
-  }catch(err){
-    res.status(400).send(err);
+    try {
+      const savedPending = await pending.save();
+      res.send(savedPending);
+    } catch (err) {
+      res.status(400).send(err);
+    }
   }
-
-
-
 });
 
 module.exports = router;
