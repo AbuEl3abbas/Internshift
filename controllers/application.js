@@ -151,7 +151,7 @@ router.post("/accept", verify.companyVerification, async (req, res) => {
 });
 
 router.delete('/reject', async (req, res) => {
-  const validation = acceptRejectApplicationValidation(req.body);
+  const validation = acceptRejectValidation(req.body);
   if (validation.error) {
     return res.status(400).send(validation.error.details[0].message);
   } else {
