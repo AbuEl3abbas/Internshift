@@ -4,7 +4,7 @@ const Company = require("../models/Company");
 const Post = require("../models/Post");
 const Application = require("../models/Application");
 const verify = require("../middlewares/verifyToken");
-const { applyValidation } = require("../middlewares/validation");
+const { applyValidation, studentAppliedValidation } = require("../middlewares/validation");
 
 router.post("/apply", verify.studentVerification, async (req, res) => {
   //validation required
@@ -34,7 +34,6 @@ router.post("/apply", verify.studentVerification, async (req, res) => {
     if (!post) {
       return res.status(400).send("post not found");
     }
-
 
     //checking if the student already applied to the post
 
@@ -73,34 +72,42 @@ router.get("/postsByCompany", verify.companyVerification, async (req, res) => {
 
   if (!companyApplications) return res.sendStatus(400);
 
-
   var postsByCompany = [];
 
   for (let i = 0; i < companyApplications.length; i++) {
-    postsByCompany.push(await Post.findOne({_id: companyApplications[i].postId}));
+    postsByCompany.push(
+      await Post.findOne({ _id: companyApplications[i].postId })
+    );
   }
 
   res.send(postsByCompany);
-  
 });
 
 router.post("/studentsApplied", verify.companyVerification, async (req, res) => {
 
     //validation required
 
+    const validation = studentAppliedValidation(req.body);
 
-    const postId = req.body.postId;
+    if (validation.error) {
+      return res.status(400).send(validation.error.details[0].message);
+    } else {
+      const postId = req.body.postId;
 
-    const studentIds = await Application.find({postId: postId},"studentId");
+      const studentIds = await Application.find(
+        { postId: postId },
+        "studentId"
+      );
 
-    res.send(studentIds);
-  
-    /*for (let i = 0; i < companyApplications.length; i++) {
-      postsByCompany.push(await Post.findOne({_id: companyApplications[i].postId}));
+      var students = [];
+
+      for (let i = 0; i < studentIds.length; i++) {
+        students.push(await Student.findOne({ _id: studentIds[i].studentId }));
+      }
+
+      res.send(students);
     }
-*/  
-    
-  });
-  
+  }
+);
 
 module.exports = router;
