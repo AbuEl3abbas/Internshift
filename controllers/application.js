@@ -135,7 +135,7 @@ router.post("/accept", verify.companyVerification , async (req, res) => {
 
   const pending = new Pending({
     studentId: acceptedApplication.studentId,
-    companyId: acceptedApplication.companyId,
+    companyId: req.user._id,
     postId: acceptedApplication.postId
   });
 
