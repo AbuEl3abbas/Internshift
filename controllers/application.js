@@ -8,7 +8,7 @@ const verify = require("../middlewares/verifyToken");
 const {
   applyValidation,
   studentAppliedValidation,
-  acceptRejectApplicationValidation,
+  acceptRejectValidation,
 } = require("../middlewares/validation");
 
 router.post("/apply", verify.studentVerification, async (req, res) => {
@@ -122,7 +122,7 @@ router.post(
 router.post("/accept", verify.companyVerification, async (req, res) => {
   //validation
 
-  const validation = acceptRejectApplicationValidation(req.body);
+  const validation = acceptRejectValidation(req.body);
   if (validation.error) {
     return res.status(400).send(validation.error.details[0].message);
   } else {
