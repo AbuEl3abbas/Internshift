@@ -102,7 +102,7 @@ router.post("/studentsApplied", verify.companyVerification, async (req, res) => 
       var students = [];
 
       for (let i = 0; i < studentIds.length; i++) {
-        students.push(await Student.findOne({ _id: studentIds[i].studentId }));
+        students.push(await Student.findOne({ _id: studentIds[i].studentId },"-password"));
       }
 
       res.send(students);
