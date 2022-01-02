@@ -56,7 +56,7 @@ function studentAppliedValidation(data) {
 }
 
 
-function acceptApplicationValidation(data) {
+function acceptRejectApplicationValidation(data) {
   const schema = Joi.object({
     postId: Joi.objectId().required(),
     studentId: Joi.objectId().required()
@@ -70,4 +70,4 @@ module.exports.loginValidation = loginValidation;
 module.exports.companyRegisterValidation = companyRegisterValidation;
 module.exports.applyValidation = applyValidation;
 module.exports.studentAppliedValidation = studentAppliedValidation;
-module.exports.acceptApplicationValidation = acceptApplicationValidation;
+module.exports.acceptRejectApplicationValidation = acceptRejectApplicationValidation;

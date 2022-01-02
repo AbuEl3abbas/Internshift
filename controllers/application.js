@@ -8,7 +8,7 @@ const verify = require("../middlewares/verifyToken");
 const {
   applyValidation,
   studentAppliedValidation,
-  acceptApplicationValidation,
+  acceptRejectApplicationValidation,
 } = require("../middlewares/validation");
 
 router.post("/apply", verify.studentVerification, async (req, res) => {
@@ -122,7 +122,7 @@ router.post(
 router.post("/accept", verify.companyVerification, async (req, res) => {
   //validation
 
-  const validation = acceptApplicationValidation(req.body);
+  const validation = acceptRejectApplicationValidation(req.body);
   if (validation.error) {
     return res.status(400).send(validation.error.details[0].message);
   } else {
@@ -149,5 +149,19 @@ router.post("/accept", verify.companyVerification, async (req, res) => {
     }
   }
 });
+
+router.delete('/reject', async (req, res) => {
+  const validation = acceptRejectApplicationValidation(req.body);
+  if (validation.error) {
+    return res.status(400).send(validation.error.details[0].message);
+  } else {
+    const rejectedApplication = await Application.findOneAndDelete({
+      studentId: req.body.studentId,
+      postId: req.body.postId
+    });
+    if (!rejectedApplication) return res.sendStatus(400);
+    res.status(200).send(rejectedApplication);
+  }
+})
 
 module.exports = router;
