@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const verify = require("../middlewares/verifyToken");
 const Pending = require("../models/Pending");
+const Student = require("../models/Student");
+const Post = require("../models/Post");
 const Internship = require("../models/Internship");
 const { acceptRejectValidation } = require("../middlewares/validation");
 
@@ -40,8 +42,27 @@ router.delete("/reject", verify.adminVerification, async (req, res) => {
     });
 
     if (!rejectedPending) return res.sendStatus(400);
-    res.status(200).send(rejectedPending)
+    res.status(200).send(rejectedPending);
   }
 });
 
+router.get("/pendingPosts", verify.adminVerification, async (req, res) => {
+  
+  const pendingPosts = await Pending.find({});
+  var studentPost = [];
+  for (let i = 0; i < pendingPosts.length; i++) {
+    const pending = pendingPosts[i];
+    pending.post = await Post.findOne({ _id: pending.postId });
+    pending.student = await Student.findOne({ _id: pending.studentId });
+
+    studentPost.push({student: pending.student,post: pending.post})
+  }
+  if (studentPost.length === 0) return res.sendStatus(100);
+  res.status(200).send(studentPost)
+
+});
+
 module.exports = router;
+
+
+
