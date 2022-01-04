@@ -39,6 +39,16 @@ function newPostValidation(data) {
   return schema.validate(data);
 }
 
+function editPostValidation(data) {
+  const schema = Joi.object({
+    title: Joi.string().allow("").max(60).optional(),
+    description: Joi.string().max(10000).allow("").optional(),
+    postId: Joi.objectId().required()
+  });
+
+  return schema.validate(data);
+}
+
 function applyValidation(data) {
   const schema = Joi.object({
     email: Joi.string().email().min(6).max(256).required(),
@@ -72,3 +82,4 @@ module.exports.companyRegisterValidation = companyRegisterValidation;
 module.exports.applyValidation = applyValidation;
 module.exports.studentAppliedValidation = studentAppliedValidation;
 module.exports.acceptRejectValidation = acceptRejectValidation;
+module.exports.editPostValidation = editPostValidation;

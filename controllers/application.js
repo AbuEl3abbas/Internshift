@@ -12,7 +12,7 @@ const {
 } = require("../middlewares/validation");
 
 router.post("/apply", verify.studentVerification, async (req, res) => {
-  //validation required
+  //validation 
 
   const validation = applyValidation(req.body);
 
