@@ -54,7 +54,7 @@ router.get('/postsByCompany',verify.companyVerification , async (req,res) => {
 
 });
 
-router.post('/internship', verify.studentVerification, async (req,res) => {
+router.get('/internship', verify.studentVerification, async (req,res) => {
   const internships = await Internship.find({studentId: req.user._id});
   if(internships.length === 0) return res.status(400).send("no accepted internships yet");
   res.status(200).send(internships);

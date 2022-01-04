@@ -53,7 +53,7 @@ router.get("/pendingPosts", verify.adminVerification, async (req, res) => {
   for (let i = 0; i < pendingPosts.length; i++) {
     const pending = pendingPosts[i];
     pending.post = await Post.findOne({ _id: pending.postId });
-    pending.student = await Student.findOne({ _id: pending.studentId });
+    pending.student = await Student.findOne({ _id: pending.studentId },'-password');
 
     studentPost.push({student: pending.student,post: pending.post})
   }
