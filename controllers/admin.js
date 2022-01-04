@@ -31,7 +31,7 @@ router.post("/accept", verify.adminVerification, async (req, res) => {
   }
 });
 
-router.delete("/reject", verify.adminVerification, async (req, res) => {
+router.post("/reject", verify.adminVerification, async (req, res) => {
   const validation = acceptRejectValidation(req.body);
   if (validation.error) {
     return res.status(400).send(validation.error.details[0].message);

@@ -9,10 +9,14 @@ const {
 } = require("../middlewares/validation");
 
 router.post("/find", async (req, res) => {
-  const post = await Post.find({
-    title: req.body.title,
-    location: req.body.location,
-  });
+
+  const searchRegex = new RegExp(req.body.title, 'i');
+
+  const post = await Post.find({$or: [{
+    title: searchRegex,},
+    {description: searchRegex}],
+
+  }).and({location: req.body.location});
   res.send(post);
 });
 
@@ -66,7 +70,7 @@ router.get("/internship", verify.studentVerification, async (req, res) => {
       const internship = internships[i];
       internship.post = await Post.findOne({ _id: internship.postId });
 
-      post.push(internship.post);
+      post.push(internship.post)
     }
     res.status(200).send(post);
 
