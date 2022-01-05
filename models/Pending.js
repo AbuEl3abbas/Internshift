@@ -10,6 +10,9 @@ const pendingSchema = mongoose.Schema({
     postId: {
       type: String,
     },
+    adminId: {
+      type: String
+  },
     date: {
       type: Date,
       default: Date.now()

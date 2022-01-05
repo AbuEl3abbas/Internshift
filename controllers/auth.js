@@ -41,6 +41,8 @@ router.post("/register/student", async (req, res) => {
     email: req.body.email,
     password: hashedPassword,
     sid: req.body.sid,
+    gpa: req.body.gpa,
+
   });
   try {
     const savedStudent = await student.save();

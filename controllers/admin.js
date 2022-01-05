@@ -11,13 +11,15 @@ router.post("/accept", verify.adminVerification, async (req, res) => {
   if (validation.error) {
     return res.status(400).send(validation.error.details[0].message);
   } else {
-    const acceptedPending = await Pending.findOneAndDelete({
+    const acceptedPending = await Pending.findOneAndUpdate({
       studentId: req.body.studentId,
       postId: req.body.postId,
-    });
+    },{adminId: req.user._id});
 
     if (!acceptedPending) return res.sendStatus(400);
 
+    res.send(acceptedPending).status(200);
+/*
     const internship = new Internship({
       studentId: acceptedPending.studentId,
       postId: acceptedPending.postId,
@@ -27,7 +29,7 @@ router.post("/accept", verify.adminVerification, async (req, res) => {
       res.status(200).send(await internship.save());
     } catch (err) {
       res.status(400).send(err);
-    }
+    }*/
   }
 });
 

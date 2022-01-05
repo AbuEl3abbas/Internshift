@@ -7,6 +7,7 @@ function studentRegisterValidation(data) {
     email: Joi.string().email().min(6).max(256).required(),
     sid: Joi.string().min(4).max(20).required(),
     password: Joi.string().min(8).max(1024).required(),
+    gpa: Joi.number().max(4).greater(0).precision(1).required(),
   });
   return schema.validate(data);
 }
@@ -33,7 +34,7 @@ function loginValidation(data) {
 function newPostValidation(data) {
   const schema = Joi.object({
     title: Joi.string().min(2).max(60).required(),
-    description: Joi.string().min(20).max(10000).required(),
+    description: Joi.string().min(20).max(100000).required(),
   });
 
   return schema.validate(data);

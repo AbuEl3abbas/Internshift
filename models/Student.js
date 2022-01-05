@@ -15,7 +15,9 @@ const studentSchema = new mongoose.Schema({
     password: {
         type: String,
     },
-    
+    gpa: {
+        type: String,
+    },    
     date: {
         type: Date,
         default: Date.now()
