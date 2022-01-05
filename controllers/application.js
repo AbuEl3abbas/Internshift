@@ -42,6 +42,9 @@ router.post("/apply", verify.studentVerification, async (req, res) => {
 
     //checking if the student already applied to the post
 
+
+
+
     var isApplied = false;
     if (
       await Application.findOne({ studentId: student._id }) &&

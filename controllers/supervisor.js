@@ -50,7 +50,7 @@ router.post("/reject", verify.adminVerification, async (req, res) => {
 
 router.get("/pendingPosts", verify.adminVerification, async (req, res) => {
   
-  const pendingPosts = await Pending.find({supervisorId: {$exists: false}});/*
+  const pendingPosts = await Pending.find({supervisorId: {$exists: false}});
   var studentPost = [];
   for (let i = 0; i < pendingPosts.length; i++) {
     const pending = pendingPosts[i];
@@ -61,8 +61,6 @@ router.get("/pendingPosts", verify.adminVerification, async (req, res) => {
   }
   if (studentPost.length === 0) return res.sendStatus(100);
   res.status(200).send(studentPost)
-*/
-res.send(pendingPosts)
 });
 
 module.exports = router;
