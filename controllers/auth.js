@@ -199,4 +199,14 @@ router.post("/login/supervisor", async (req, res) => {
   res.header("auth-token", token).send(token);
 });
 
+router.get('/student', verify.studentVerification , async (req, res) => {
+  const student = await Student.findById(req.user._id);
+  res.status(200).send(student);
+})
+
+router.get('/company', verify.companyVerification , async (req, res) => {
+  const company = await Company.findById(req.user._id);
+  res.status(200).send(company);
+})
+
 module.exports = router;
