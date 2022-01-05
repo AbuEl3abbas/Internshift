@@ -10,7 +10,7 @@ const pendingSchema = mongoose.Schema({
     postId: {
       type: String,
     },
-    adminId: {
+    supervisorId: {
       type: String
   },
     date: {

@@ -75,7 +75,7 @@ router.get("/internship", verify.studentVerification, async (req, res) => {/*
     }
     res.status(200).send(post);*/
 
-    const pendings = await Pending.find({adminId: {$exists: true, $ne: null}});
+    const pendings = await Pending.find({supervisorId: {$exists: true, $ne: null}});
 
     if (pendings.length === 0)
     return res.status(400).send("no accepted internships yet");

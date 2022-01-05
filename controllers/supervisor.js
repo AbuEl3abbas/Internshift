@@ -14,7 +14,7 @@ router.post("/accept", verify.adminVerification, async (req, res) => {
     const acceptedPending = await Pending.findOneAndUpdate({
       studentId: req.body.studentId,
       postId: req.body.postId,
-    },{adminId: req.user._id});
+    },{supervisorId: req.user._id});
 
     if (!acceptedPending) return res.sendStatus(400);
 
@@ -50,7 +50,7 @@ router.post("/reject", verify.adminVerification, async (req, res) => {
 
 router.get("/pendingPosts", verify.adminVerification, async (req, res) => {
   
-  const pendingPosts = await Pending.find({adminId: {$exists: false}});
+  const pendingPosts = await Pending.find({supervisorId: {$exists: false}});/*
   var studentPost = [];
   for (let i = 0; i < pendingPosts.length; i++) {
     const pending = pendingPosts[i];
@@ -61,7 +61,8 @@ router.get("/pendingPosts", verify.adminVerification, async (req, res) => {
   }
   if (studentPost.length === 0) return res.sendStatus(100);
   res.status(200).send(studentPost)
-
+*/
+res.send(pendingPosts)
 });
 
 module.exports = router;

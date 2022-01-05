@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Student = require("../models/Student");
 const Company = require("../models/Company");
-const Admin = require("../models/Admin");
+const Supervisor = require("../models/Supervisor");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -192,7 +192,7 @@ router.post("/register/admin", async (req, res) => {
   }
 });
 */
-router.post("/login/admin", async (req, res) => {
+router.post("/login/supervisor", async (req, res) => {
   //Validation
 
   const validation = loginValidation(req.body);
@@ -202,8 +202,8 @@ router.post("/login/admin", async (req, res) => {
 
   //Checking if the user is already registered
 
-  const admin = await Admin.findOne({ email: req.body.email });
-  if (!admin) {
+  const supervisor = await Supervisor.findOne({ email: req.body.email });
+  if (!supervisor) {
     return res.status(400).send("Email or Password is wrong");
   }
 
@@ -211,7 +211,7 @@ router.post("/login/admin", async (req, res) => {
 
   const validPassword = await bcrypt.compare(
     req.body.password,
-    admin.password
+    supervisor.password
   );
   if (!validPassword) {
     return res.status(400).send("Email or Password is wrong");
@@ -220,7 +220,7 @@ router.post("/login/admin", async (req, res) => {
   //Create and assign a token
 
   const token = jwt.sign(
-    { _id: admin._id },
+    { _id: supervisor._id },
     process.env.ADMIN_TOKEN_SECRET
   );
   res.header("auth-token", token).send(token);

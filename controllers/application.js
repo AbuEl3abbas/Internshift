@@ -44,8 +44,8 @@ router.post("/apply", verify.studentVerification, async (req, res) => {
 
     var isApplied = false;
     if (
-      (await Application.findOne({ studentId: student.id })) &&
-      (await Application.findOne({ postId: post.id }))
+      await Application.findOne({ studentId: student._id }) &&
+      await Application.findOne({ postId: post._id })
     ) {
       isApplied = true;
     } else {

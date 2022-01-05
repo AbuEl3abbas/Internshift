@@ -20,7 +20,7 @@ app.use(cors(corsOptions));
 const authRoute = require("./controllers/auth");
 const postRoute = require("./controllers/post");
 const applicationRoute = require("./controllers/application");
-const adminRoute = require("./controllers/admin");
+const supervisorRoute = require("./controllers/supervisor");
 
 
 
@@ -35,7 +35,7 @@ app.use(cors(corsOptions));
 app.use('/auth',authRoute);
 app.use('/post',postRoute);
 app.use('/application', applicationRoute);
-app.use('/admin', adminRoute);
+app.use('/supervisor', supervisorRoute);
 
 
 app.get("/",(req,res) => {
