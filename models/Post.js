@@ -10,6 +10,9 @@ const postSchema = new mongoose.Schema({
     location: {
         type: String, 
     },
+    expiryDate: {
+        type:Date, 
+    },
     date: {
         type: Date,
         default: Date.now()

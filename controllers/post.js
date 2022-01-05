@@ -3,9 +3,11 @@ const Company = require("../models/Company");
 const Pending = require("../models/Pending")
 const router = require("express").Router();
 const verify = require("../middlewares/verifyToken");
+const Application = require("../models/Application");
 const {
   newPostValidation,
   editPostValidation,
+  deletePostValidation
 } = require("../middlewares/validation");
 
 router.post("/find", async (req, res) => {
@@ -37,6 +39,7 @@ router.post("/new", verify.companyVerification, async (req, res) => {
       phone: company.phone,
       email: company.email,
       companyId: company._id,
+      expirationDate: req.body.expirationDate,
     });
 
     try {
@@ -45,6 +48,19 @@ router.post("/new", verify.companyVerification, async (req, res) => {
     } catch (e) {
       res.status(400).send(e);
     }
+  }
+});
+
+router.post('/delete', verify.companyVerification, async (req, res) => {
+  const validation = deletePostValidation(req.body);
+
+  if (validation.error) {
+    return res.status(400).send(validation.error.details[0].message);
+  } else {
+    await Post.findOneAndDelete({_id: req.body.postId,companyId: req.user._id})
+    await Application.findOneAndDelete({postId: req.body.postId, companyId: req.user._id})
+    await Pending.findOneAndDelete({postId: req.body.postId, companyId: req.user._id})
+    res.sendStatus(201);
   }
 });
 
@@ -60,7 +76,7 @@ router.get("/all", async (req, res) => {
 });
 
 router.get("/internship", verify.studentVerification, async (req, res) => {
-  
+
     const pendings = await Pending.find({supervisorId: {$exists: true, $ne: null}});
 
     if (pendings.length === 0)

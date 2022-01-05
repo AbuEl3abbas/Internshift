@@ -36,8 +36,17 @@ function newPostValidation(data) {
   const schema = Joi.object({
     title: Joi.string().min(2).max(60).required(),
     description: Joi.string().min(20).max(100000).required(),
+    expirationDate: Joi.date().greater('now').required(),
   });
 
+  return schema.validate(data);
+}
+
+function deletePostValidation(data) {
+  const schema = Joi.object({
+    postId: Joi.objectId().required(),
+  
+  });
   return schema.validate(data);
 }
 
@@ -85,3 +94,4 @@ module.exports.applyValidation = applyValidation;
 module.exports.studentAppliedValidation = studentAppliedValidation;
 module.exports.acceptRejectValidation = acceptRejectValidation;
 module.exports.editPostValidation = editPostValidation;
+module.exports.deletePostValidation = deletePostValidation;

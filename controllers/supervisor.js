@@ -18,7 +18,7 @@ router.post("/accept", verify.supervisorVerification, async (req, res) => {
     
     if (!acceptedPending) return res.sendStatus(400);
 
-    res.Status(200);
+    res.status(200);
   }
 });
 
