@@ -8,6 +8,7 @@ function studentRegisterValidation(data) {
     sid: Joi.string().min(4).max(20).required(),
     password: Joi.string().min(8).max(1024).required(),
     gpa: Joi.number().max(4).greater(0).precision(1).required(),
+    phone: Joi.string().min(10).max(10).required(),
   });
   return schema.validate(data);
 }

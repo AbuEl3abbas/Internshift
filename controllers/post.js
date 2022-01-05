@@ -1,6 +1,5 @@
 const Post = require("../models/Post");
 const Company = require("../models/Company");
-const Internship = require("../models/Internship");
 const Pending = require("../models/Pending")
 const router = require("express").Router();
 const verify = require("../middlewares/verifyToken");

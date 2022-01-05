@@ -3,7 +3,6 @@ const verify = require("../middlewares/verifyToken");
 const Pending = require("../models/Pending");
 const Student = require("../models/Student");
 const Post = require("../models/Post");
-const Internship = require("../models/Internship");
 const { acceptRejectValidation } = require("../middlewares/validation");
 
 router.post("/accept", verify.adminVerification, async (req, res) => {
@@ -16,9 +15,10 @@ router.post("/accept", verify.adminVerification, async (req, res) => {
       postId: req.body.postId,
     },{supervisorId: req.user._id});
 
+    
     if (!acceptedPending) return res.sendStatus(400);
 
-    res.send(acceptedPending).status(200);
+    res.Status(200);
 /*
     const internship = new Internship({
       studentId: acceptedPending.studentId,

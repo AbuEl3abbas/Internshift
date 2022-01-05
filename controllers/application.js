@@ -54,7 +54,7 @@ router.post("/apply", verify.studentVerification, async (req, res) => {
     } else {
       isApplied = false;
     }
-    if (isApplied) return res.sendStatus(403);
+    if (isApplied) return res.status(403).send("already applied");
 
     //saving application in the database
 

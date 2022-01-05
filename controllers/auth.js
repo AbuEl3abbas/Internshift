@@ -42,6 +42,7 @@ router.post("/register/student", async (req, res) => {
     password: hashedPassword,
     sid: req.body.sid,
     gpa: req.body.gpa,
+    phone: req.body.phone,
 
   });
   try {
