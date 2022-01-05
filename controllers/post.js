@@ -59,25 +59,12 @@ router.get("/all", async (req, res) => {
   res.send(await Post.find({}));
 });
 
-router.get("/internship", verify.studentVerification, async (req, res) => {/*
-  const internships = await Internship.find({ studentId: req.user._id });
-  if (internships.length === 0)
-    return res.status(400).send("no accepted internships yet");
-
-    var post = [];
-    
-    for (let i = 0; i < internships.length; i++) {
-      const internship = internships[i];
-      internship.post = await Post.findOne({ _id: internship.postId });
-
-      post.push(internship.post)
-    }
-    res.status(200).send(post);*/
-
+router.get("/internship", verify.studentVerification, async (req, res) => {
+  
     const pendings = await Pending.find({supervisorId: {$exists: true, $ne: null}});
 
     if (pendings.length === 0)
-    return res.status(400).send("no accepted internships yet");
+    return res.status(204).send("no accepted internships yet");
 
     var post = [];
     

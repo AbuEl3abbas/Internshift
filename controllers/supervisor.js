@@ -5,7 +5,7 @@ const Student = require("../models/Student");
 const Post = require("../models/Post");
 const { acceptRejectValidation } = require("../middlewares/validation");
 
-router.post("/accept", verify.adminVerification, async (req, res) => {
+router.post("/accept", verify.supervisorVerification, async (req, res) => {
   const validation = acceptRejectValidation(req.body);
   if (validation.error) {
     return res.status(400).send(validation.error.details[0].message);
@@ -19,21 +19,10 @@ router.post("/accept", verify.adminVerification, async (req, res) => {
     if (!acceptedPending) return res.sendStatus(400);
 
     res.Status(200);
-/*
-    const internship = new Internship({
-      studentId: acceptedPending.studentId,
-      postId: acceptedPending.postId,
-    });
-
-    try {
-      res.status(200).send(await internship.save());
-    } catch (err) {
-      res.status(400).send(err);
-    }*/
   }
 });
 
-router.post("/reject", verify.adminVerification, async (req, res) => {
+router.post("/reject", verify.supervisorVerification, async (req, res) => {
   const validation = acceptRejectValidation(req.body);
   if (validation.error) {
     return res.status(400).send(validation.error.details[0].message);
@@ -48,7 +37,7 @@ router.post("/reject", verify.adminVerification, async (req, res) => {
   }
 });
 
-router.get("/pendingPosts", verify.adminVerification, async (req, res) => {
+router.get("/pendingPosts", verify.supervisorVerification, async (req, res) => {
   
   const pendingPosts = await Pending.find({supervisorId: {$exists: false}});
   var studentPost = [];

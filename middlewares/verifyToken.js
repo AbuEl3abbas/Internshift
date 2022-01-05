@@ -32,7 +32,7 @@ function companyVerification (req,res,next){
     
 }
 
-function adminVerification (req,res,next){
+function supervisorVerification (req,res,next){
     
     const token = req.header('auth-token');
     if(!token) return res.sendStatus(401);
@@ -51,5 +51,5 @@ function adminVerification (req,res,next){
 module.exports = {
     studentVerification,
     companyVerification,
-    adminVerification
+    supervisorVerification
 };

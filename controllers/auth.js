@@ -164,35 +164,7 @@ router.post("/login/company", async (req, res) => {
   );
   res.header("auth-token", token).send(token);
 });
-/*
-router.post("/register/admin", async (req, res) => {
-  //Validation
 
-  
-
-
-  //Hashing the password
-
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
-  //creating new admin account
-
-  
-
-  const admin = new Admin({
-    email: req.body.email,
-    password: hashedPassword,
-  });
-
-  try {
-    const savedAdmin = await admin.save();
-    res.json({ id: savedAdmin._id });
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
-*/
 router.post("/login/supervisor", async (req, res) => {
   //Validation
 
@@ -222,7 +194,7 @@ router.post("/login/supervisor", async (req, res) => {
 
   const token = jwt.sign(
     { _id: supervisor._id },
-    process.env.ADMIN_TOKEN_SECRET
+    process.env.SUPERVISOR_TOKEN_SECRET
   );
   res.header("auth-token", token).send(token);
 });
