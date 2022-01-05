@@ -50,7 +50,7 @@ router.post("/reject", verify.adminVerification, async (req, res) => {
 
 router.get("/pendingPosts", verify.adminVerification, async (req, res) => {
   
-  const pendingPosts = await Pending.find({});
+  const pendingPosts = await Pending.find({adminId: {$exists: false}});
   var studentPost = [];
   for (let i = 0; i < pendingPosts.length; i++) {
     const pending = pendingPosts[i];
