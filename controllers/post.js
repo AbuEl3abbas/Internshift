@@ -1,6 +1,7 @@
 const Post = require("../models/Post");
 const Company = require("../models/Company");
 const Internship = require("../models/Internship");
+const Pending = require("../models/Pending")
 const router = require("express").Router();
 const verify = require("../middlewares/verifyToken");
 const {
@@ -74,9 +75,20 @@ router.get("/internship", verify.studentVerification, async (req, res) => {/*
     }
     res.status(200).send(post);*/
 
-    const pending = await Pending.find({adminId: {$exists: true, $ne: null}});
+    const pendings = await Pending.find({adminId: {$exists: true, $ne: null}});
 
-    res.send(pending).status(200)
+    if (pendings.length === 0)
+    return res.status(400).send("no accepted internships yet");
+
+    var post = [];
+    
+    for (let i = 0; i < pendings.length; i++) {
+      const pending = pendings[i];
+      pending.post = await Post.findOne({ _id: pending.postId });
+
+      post.push(pending.post)
+    }
+    res.status(200).send(post);
 
 
   
