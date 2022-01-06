@@ -98,15 +98,16 @@ router.post("/studentsApplied",verify.companyVerification,  async (req, res) => 
     } else {
       const postId = req.body.postId;
 
-      const studentIds = await Application.find(
-        { postId: postId },
-        "studentId"
-      );
+      const studentIds = await Application.find({ postId: postId },"studentId");
 
       const acceptedStudentIds = await Pending.find({supervisorId: {$exists: false}},"studentId");
-      const acceptedStudentBySupervisorIds = await Pending.find({studentId: req.user._id,supervisorId: {$exists: true, $ne: null}},"studentId")
+
+      const acceptedStudentBySupervisorIds = await Pending.find({supervisorId: {$exists: true, $ne: null}},"studentId")
 
       var students = [];
+      var acceptedStudents = [];
+      var acceptedStudentBySupervisor = [];
+
 
       for (let i = 0; i < studentIds.length; i++) {
         students.push(
@@ -114,8 +115,7 @@ router.post("/studentsApplied",verify.companyVerification,  async (req, res) => 
         );
       }
 
-      var acceptedStudents = [];
-      var acceptedStudentBySupervisor = [];
+      
 
       for (let i = 0; i < acceptedStudentIds.length; i++) {
         acceptedStudents.push(
