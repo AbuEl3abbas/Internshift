@@ -22,6 +22,7 @@ const postRoute = require("./controllers/post");
 const applicationRoute = require("./controllers/application");
 const supervisorRoute = require("./controllers/supervisor");
 const studentRoute = require("./controllers/student");
+const companyRoute = require("./controllers/company")
 
 
 
@@ -38,6 +39,7 @@ app.use('/post',postRoute);
 app.use('/application', applicationRoute);
 app.use('/supervisor', supervisorRoute);
 app.use('/student', studentRoute);
+app.use('/company', companyRoute);
 
 
 
