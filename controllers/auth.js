@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Student = require("../models/Student");
 const Company = require("../models/Company");
 const Supervisor = require("../models/Supervisor");
+const verify = require("../middlewares/verifyToken");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
