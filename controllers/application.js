@@ -12,7 +12,7 @@ const {
 } = require("../middlewares/validation");
 
 router.post("/apply", verify.studentVerification, async (req, res) => {
-  //validation 
+  //validation
 
   const validation = applyValidation(req.body);
 
@@ -42,13 +42,10 @@ router.post("/apply", verify.studentVerification, async (req, res) => {
 
     //checking if the student already applied to the post
 
-
-
-
     var isApplied = false;
     if (
-      await Application.findOne({ studentId: student._id }) &&
-      await Application.findOne({ postId: post._id })
+      (await Application.findOne({ studentId: student._id })) &&
+      (await Application.findOne({ postId: post._id }))
     ) {
       isApplied = true;
     } else {
@@ -91,7 +88,7 @@ router.get("/appliedPosts", verify.companyVerification, async (req, res) => {
   res.send(appliedPosts);
 });
 
-router.post("/studentsApplied", verify.companyVerification, async (req, res) => {
+router.post("/studentsApplied",verify.companyVerification,  async (req, res) => {
     //validation
 
     const validation = studentAppliedValidation(req.body);
@@ -106,10 +103,8 @@ router.post("/studentsApplied", verify.companyVerification, async (req, res) => 
         "studentId"
       );
 
-      const acceptedStudentIds = await Pending.find(
-        { postId: postId },
-        "studentId"
-      );
+      const acceptedStudentIds = await Pending.find({supervisorId: {$exists: false}},"studentId");
+      const acceptedStudentBySupervisorIds = await Pending.find({studentId: req.user._id,supervisorId: {$exists: true, $ne: null}},"studentId")
 
       var students = [];
 
@@ -120,17 +115,29 @@ router.post("/studentsApplied", verify.companyVerification, async (req, res) => 
       }
 
       var acceptedStudents = [];
+      var acceptedStudentBySupervisor = [];
 
       for (let i = 0; i < acceptedStudentIds.length; i++) {
-        
-        acceptedStudents.push(await Student.findOne({ _id: acceptedStudentIds[i].studentId}, "-password"));
-        
+        acceptedStudents.push(
+          await Student.findOne(
+            { _id: acceptedStudentIds[i].studentId },
+            "-password"
+          )
+        );
       }
 
-      res.send({students: students, acceptedStudents: acceptedStudents});
-    
+      for (let i = 0; i < acceptedStudentBySupervisorIds.length; i++) {
+        acceptedStudentBySupervisor.push(
+          await Student.findOne(
+            { _id: acceptedStudentBySupervisorIds[i].studentId },
+            "-password"
+          )
+        );
+      }
+
+      res.send({ students: students, acceptedStudents: acceptedStudents, acceptedStudentBySupervisor: acceptedStudentBySupervisor });
+    }
   }
-}
 );
 
 router.post("/accept", verify.companyVerification, async (req, res) => {
@@ -140,12 +147,10 @@ router.post("/accept", verify.companyVerification, async (req, res) => {
   if (validation.error) {
     return res.status(400).send(validation.error.details[0].message);
   } else {
-    
     const acceptedApplication = await Application.findOneAndDelete({
       studentId: req.body.studentId,
-      postId: req.body.postId
+      postId: req.body.postId,
     });
-
 
     if (!acceptedApplication) return res.sendStatus(400);
 
@@ -164,18 +169,18 @@ router.post("/accept", verify.companyVerification, async (req, res) => {
   }
 });
 
-router.post('/reject', verify.companyVerification ,async (req, res) => {
+router.post("/reject", verify.companyVerification, async (req, res) => {
   const validation = acceptRejectValidation(req.body);
   if (validation.error) {
     return res.status(400).send(validation.error.details[0].message);
   } else {
     const rejectedApplication = await Application.findOneAndDelete({
       studentId: req.body.studentId,
-      postId: req.body.postId
+      postId: req.body.postId,
     });
     if (!rejectedApplication) return res.sendStatus(400);
     res.status(200).send(rejectedApplication);
   }
-})
+});
 
 module.exports = router;
