@@ -10,7 +10,7 @@ const postSchema = new mongoose.Schema({
     location: {
         type: String, 
     },
-    expiryDate: {
+    expirationDate: {
         type:Date, 
     },
     date: {
