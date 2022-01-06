@@ -23,7 +23,7 @@ router.put('/edit', verify.studentVerification, async (req, res) => {
       });
 
       console.log(req.user._id)
-    const student = await Student.findByIdAndUpdate(req.user._id,{body})
+    const student = await Student.findByIdAndUpdate(req.user._id,{$set: {body}})
 
     if(!student) return res.sendStatus(400)
     res.sendStatus(200);
