@@ -91,10 +91,7 @@ router.get("/appliedPosts", verify.companyVerification, async (req, res) => {
   res.send(appliedPosts);
 });
 
-router.post(
-  "/studentsApplied",
-  verify.companyVerification,
-  async (req, res) => {
+router.post("/studentsApplied", verify.companyVerification, async (req, res) => {
     //validation
 
     const validation = studentAppliedValidation(req.body);
@@ -109,6 +106,11 @@ router.post(
         "studentId"
       );
 
+      const acceptedStudentIds = await Pending.find(
+        { postId: postId },
+        "studentId"
+      );
+
       var students = [];
 
       for (let i = 0; i < studentIds.length; i++) {
@@ -117,9 +119,18 @@ router.post(
         );
       }
 
-      res.send(students);
-    }
+      var acceptedStudents = [];
+
+      for (let i = 0; i < acceptedStudentIds.length; i++) {
+        
+        acceptedStudents.push(await Student.findOne({ _id: acceptedStudentIds[i].studentId}, "-password"));
+        
+      }
+
+      res.send({students: students, acceptedStudents: acceptedStudents});
+    
   }
+}
 );
 
 router.post("/accept", verify.companyVerification, async (req, res) => {
