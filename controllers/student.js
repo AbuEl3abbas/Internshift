@@ -14,8 +14,8 @@ router.put('/edit', verify.studentVerification, async (req, res) => {
     
     // validation required
 
-    const body = new Object();
-
+    var body = new Object();
+    body = req.body
     Object.keys(body).forEach(key => {
         if (body[key] === null) {
           delete body[key];
