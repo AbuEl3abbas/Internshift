@@ -21,6 +21,7 @@ const authRoute = require("./controllers/auth");
 const postRoute = require("./controllers/post");
 const applicationRoute = require("./controllers/application");
 const supervisorRoute = require("./controllers/supervisor");
+const studentRoute = require("./controllers/student");
 
 
 
@@ -36,13 +37,7 @@ app.use('/auth',authRoute);
 app.use('/post',postRoute);
 app.use('/application', applicationRoute);
 app.use('/supervisor', supervisorRoute);
-
-
-app.get("/",(req,res) => {
-  res.send("test");
-})
-
-
+app.use('/student', studentRoute);
 
 
 

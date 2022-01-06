@@ -87,6 +87,13 @@ function acceptRejectValidation(data) {
   return schema.validate(data);
 }
 
+function bioEditValidation(data) {
+  const schema = Joi.object({
+    bio: Joi.string().min(10).max(100000).required(),
+  })
+  return schema.validate(data);
+}
+
 module.exports.studentRegisterValidation = studentRegisterValidation;
 module.exports.newPostValidation = newPostValidation;
 module.exports.loginValidation = loginValidation;
@@ -96,3 +103,4 @@ module.exports.studentAppliedValidation = studentAppliedValidation;
 module.exports.acceptRejectValidation = acceptRejectValidation;
 module.exports.editPostValidation = editPostValidation;
 module.exports.deletePostValidation = deletePostValidation;
+module.exports.bioEditValidation = bioEditValidation;
