@@ -44,6 +44,7 @@ router.post("/register/student", async (req, res) => {
     sid: req.body.sid,
     gpa: req.body.gpa,
     phone: req.body.phone,
+    bio: req.body.bio,
 
   });
   try {

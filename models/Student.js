@@ -21,6 +21,9 @@ const studentSchema = new mongoose.Schema({
     phone: {
         type: String,
     },
+    bio : {
+        type: String,
+    },
     date: {
         type: Date,
         default: Date.now()
