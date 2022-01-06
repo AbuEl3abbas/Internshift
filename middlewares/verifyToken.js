@@ -38,7 +38,7 @@ function supervisorVerification (req,res,next){
     if(!token) return res.sendStatus(401);
 
     try{
-        const verified = jwt.verify(token,process.env.ADMIN_TOKEN_SECRET);
+        const verified = jwt.verify(token,process.env.SUPERVISOR_TOKEN_SECRET);
         req.user = verified;
         next();
     }catch(e){
