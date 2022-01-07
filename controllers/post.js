@@ -104,7 +104,7 @@ router.put("/edit", verify.companyVerification, async (req, res) => {
     const title = req.body.title;
     const description = req.body.description;
 
-    /*if (title && description) {
+    if (title && description) {
       const post = await Post.findOneAndUpdate(
         { _id: req.body.postId, companyId: req.user._id },
         { title: title, description: description }
@@ -122,16 +122,8 @@ router.put("/edit", verify.companyVerification, async (req, res) => {
       res.status(200).send(post);
     } else {
       res.sendStatus(400);
-    }*/
-
-    
-      const post = await Post.findOneAndUpdate(
-        { _id: req.body.postId, companyId: req.user._id },
-        { title: req.body.title, description: req.body.description })
-     
-      res.sendStatus(post);
     }
   }
-);
+});
 
 module.exports = router;

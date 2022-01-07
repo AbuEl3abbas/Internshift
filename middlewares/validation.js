@@ -83,8 +83,8 @@ function deletePostValidation(data) {
 
 function editPostValidation(data) {
   const schema = Joi.object({
-    title: Joi.string().min(2).max(60),
-    description: Joi.string().min(20).max(100000),
+    title: Joi.string().allow("").max(60).optional(),
+    description: Joi.string().max(10000).allow("").optional(),
     postId: Joi.objectId().required()
   });
 
