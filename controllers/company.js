@@ -10,9 +10,16 @@ router.put('/edit', verify.companyVerification ,async (req,res) =>{
         }
       });
 
-    const company = await Company.findByIdAndUpdate(req.user._id,{$set: {body}})
-    if(!company) return res.sendStatus(400)
-    res.sendStatus(200);
+      for (const [key, value] of Object.entries(body)) {
+        await Company.findByIdAndUpdate(req.user._id,{$set: `${key}: ${value}`})   
+
+     }
+
+
+
+
+
+   res.status(200).send(body);
 })
 
 module.exports = router

@@ -100,9 +100,9 @@ router.post("/studentsApplied",verify.companyVerification,  async (req, res) => 
 
       const studentIds = await Application.find({ postId: postId },"studentId");
 
-      const acceptedStudentIds = await Pending.find({supervisorId: {$exists: false}},"studentId");
+      const acceptedStudentIds = await Pending.find({postId: postId,supervisorId: {$exists: false}},"studentId");
 
-      const acceptedStudentBySupervisorIds = await Pending.find({supervisorId: {$exists: true, $ne: null}},"studentId")
+      const acceptedStudentBySupervisorIds = await Pending.find({postId: postId,supervisorId: {$exists: true, $ne: null}},"studentId")
 
       var students = [];
       var acceptedStudents = [];
