@@ -14,6 +14,18 @@ function studentRegisterValidation(data) {
   return schema.validate(data);
 }
 
+function studentEditValidation(data) {
+  const schema = Joi.object({
+    name: Joi.string().min(2).max(128),
+    email: Joi.string().email().min(6).max(256),
+    sid: Joi.string().min(4).max(20),
+    gpa: Joi.number().max(4).greater(0).precision(1),
+    phone: Joi.string().min(10).max(10),
+    bio: Joi.string().min(10).max(100000)
+  });
+  return schema.validate(data);
+}
+
 function companyRegisterValidation(data) {
   const schema = Joi.object({
     name: Joi.string().min(2).max(128).required(),
@@ -104,3 +116,4 @@ module.exports.acceptRejectValidation = acceptRejectValidation;
 module.exports.editPostValidation = editPostValidation;
 module.exports.deletePostValidation = deletePostValidation;
 module.exports.bioEditValidation = bioEditValidation;
+module.exports.studentEditValidation = studentEditValidation;

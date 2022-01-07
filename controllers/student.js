@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const verify = require("../middlewares/verifyToken")
 const Student = require('../models/Student');
-const {bioEditValidation} = require("../middlewares/validation");
+const {bioEditValidation,studentEditValidation} = require("../middlewares/validation");
 
 router.put('/bioEdit', verify.studentVerification , async (req, res) => {
     bioEditValidation(req.body);
@@ -13,6 +13,7 @@ router.put('/bioEdit', verify.studentVerification , async (req, res) => {
 router.put('/edit', verify.studentVerification ,async (req, res) => {
     
     // validation required
+    studentEditValidation(req.body)
 
     const student = await Student.findByIdAndUpdate(req.user._id,{
     name: req.body.name,
