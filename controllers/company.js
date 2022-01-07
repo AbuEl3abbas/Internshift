@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Company = require("../models/Company");
 const verify = require("../middlewares/verifyToken");
+const bcrypt = require('bcrypt');
 const {companyEditValidations,changePasswordValidations} = require('../middlewares/validation')
 
 router.get('/', verify.companyVerification , async (req, res) => {
