@@ -40,7 +40,7 @@ router.put('/edit', verify.studentVerification ,async (req, res) => {
     if(!student){
       return res.sendStatus(400);
     }
-    res.sendStatus(200);
+    res.status(200).send(student);
   }
 })
 
