@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Company = require("../models/Company");
 const verify = require("../middlewares/verifyToken");
 const bcrypt = require("bcrypt");
+const Post = require("../models/Post");
 const {
   companyEditValidations,
   changePasswordValidations,
@@ -27,7 +28,16 @@ router.put("/edit", verify.companyVerification, async (req, res) => {
       },
       { new: true }
     );
-    if (!company) return res.sendStatus(400);
+    const post = await Post.updateMany(
+      { companyId: req.user._id },
+      {
+        publisher: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        location: req.body.location,
+      }
+    );
+    if (!company || !post) return res.sendStatus(400);
     res.sendStatus(200);
   }
 });

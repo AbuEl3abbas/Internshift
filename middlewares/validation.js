@@ -9,7 +9,7 @@ function studentRegisterValidation(data) {
     password: Joi.string().min(8).max(1024).required(),
     gpa: Joi.number().max(4).greater(0).precision(1).required(),
     phone: Joi.string().min(10).max(10).required(),
-    bio: Joi.string().min(10).max(100000).required()
+    bio: Joi.string().min(10).max(100000).required(),
   });
   return schema.validate(data);
 }
