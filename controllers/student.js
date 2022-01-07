@@ -13,7 +13,7 @@ router.put('/bioEdit', verify.studentVerification , async (req, res) => {
 router.put('/edit', verify.studentVerification ,async (req, res) => {
     
     // validation required
-
+/*
     var body = new Object();
     body = req.body
     Object.keys(body).forEach(key => {
@@ -32,7 +32,10 @@ router.put('/edit', verify.studentVerification ,async (req, res) => {
 
 
     res.status(200).send(body);
+*/
+      const student = await Student.findByIdAndUpdate(req.user._id,{body});
 
+      res.status(200).send(student);
 })
 
 module.exports = router;
