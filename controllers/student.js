@@ -13,33 +13,21 @@ router.put('/bioEdit', verify.studentVerification , async (req, res) => {
 router.put('/edit', verify.studentVerification ,async (req, res) => {
     
     // validation required
-/*
-    var body = new Object();
-    body = req.body
-    Object.keys(body).forEach(key => {
-        if (body[key] === null) {
-          delete body[key];
-        }
-      });
 
-      for (const [key, value] of Object.entries(body)) {
-         await Student.findByIdAndUpdate(req.user._id,{$set: `${key}: ${value}`})   
+    const student = await Student.findByIdAndUpdate(req.user._id,{
+    name: req.body.name,
+    email: req.body.email,
+    sid: req.body.sid,
+    gpa: req.body.gpa,
+    phone: req.body.phone,
+    bio: req.body.bio,
 
-      }
+    },{new: true});
 
-
-
-
-
-    res.status(200).send(body);
-*/
-      const data = req.body;
-      const student = await Student.findByIdAndUpdate(req.user._id,{data});
-
-      if(!student){
-        return res.sendStatus(400);
-      }
-      res.status(200).send(student);
+    if(!student){
+      return res.sendStatus(400);
+    }
+    res.status(200).send(student);
 })
 
 module.exports = router;
