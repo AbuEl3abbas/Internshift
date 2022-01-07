@@ -33,8 +33,12 @@ router.put('/edit', verify.studentVerification ,async (req, res) => {
 
     res.status(200).send(body);
 */
-      const student = await Student.findByIdAndUpdate(req.user._id,{body});
+      const data = req.body;
+      const student = await Student.findByIdAndUpdate(req.user._id,{data});
 
+      if(!student){
+        return res.sendStatus(400);
+      }
       res.status(200).send(student);
 })
 
