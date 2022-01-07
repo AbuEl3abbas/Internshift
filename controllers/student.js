@@ -10,7 +10,7 @@ router.put('/bioEdit', verify.studentVerification , async (req, res) => {
     res.send(updatedStudent);
 });
 
-router.put('/edit', verify.studentVerification, async (req, res) => {
+router.put('/edit', async (req, res) => {
     
     // validation required
 
@@ -22,11 +22,15 @@ router.put('/edit', verify.studentVerification, async (req, res) => {
         }
       });
 
-      console.log(req.user._id)
-    const student = await Student.findByIdAndUpdate(req.user._id,{$set: {body}})
+      for (const [key, value] of Object.entries(body)) {
+         await Student.findByIdAndUpdate(req.user._id,{$set: `${key}: ${value}`})        
+      }
 
-    if(!student) return res.sendStatus(400)
-    res.sendStatus(200);
+
+
+
+
+    res.send(body);
 
 })
 
