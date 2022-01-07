@@ -4,6 +4,11 @@ const Student = require('../models/Student');
 const bcrypt = require('bcrypt')
 const {bioEditValidation,studentEditValidation,changePasswordValidations} = require("../middlewares/validation");
 
+router.get('/', verify.studentVerification , async (req, res) => {
+  const student = await Student.findById(req.user._id);
+  res.status(200).send(student);
+})
+
 router.put('/bioEdit', verify.studentVerification , async (req, res) => {
     const validation = bioEditValidation(req.body);
     if (validation.error)

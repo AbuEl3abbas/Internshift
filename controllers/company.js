@@ -3,6 +3,10 @@ const Company = require("../models/Company");
 const verify = require("../middlewares/verifyToken");
 const {companyEditValidations,changePasswordValidations} = require('../middlewares/validation')
 
+router.get('/', verify.companyVerification , async (req, res) => {
+  const company = await Company.findById(req.user._id);
+  res.status(200).send(company);
+})
 
 router.put("/edit", verify.companyVerification, async (req, res) => {
   const validation = companyEditValidations(req.body);
