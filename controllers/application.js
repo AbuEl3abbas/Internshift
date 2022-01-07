@@ -11,6 +11,9 @@ const {
   acceptRejectValidation,
 } = require("../middlewares/validation");
 
+
+//apply for a post by authenticated student
+
 router.post("/apply", verify.studentVerification, async (req, res) => {
   //validation
 
@@ -69,6 +72,8 @@ router.post("/apply", verify.studentVerification, async (req, res) => {
     }
   }
 });
+
+// return posts by authenticated company
 
 router.get("/appliedPosts", verify.companyVerification, async (req, res) => {
   const companyApplications = await Application.find({
