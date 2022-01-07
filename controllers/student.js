@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const verify = require("../middlewares/verifyToken")
 const Student = require('../models/Student');
+const bcrypt = require('bcrypt')
 const {bioEditValidation,studentEditValidation} = require("../middlewares/validation");
 
 router.put('/bioEdit', verify.studentVerification , async (req, res) => {
@@ -28,7 +29,14 @@ router.put('/edit', verify.studentVerification ,async (req, res) => {
     if(!student){
       return res.sendStatus(400);
     }
-    res.status(200).send(student);
+    res.sendStatus(200);
+})
+
+router.put('/password', verify.studentVerification, async (req, res) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  const student = await Student.findByIdAndUpdate(req.user._id,{password: hashedPassword},{new: true});
+  res.send(student).status(200);
 })
 
 module.exports = router;
